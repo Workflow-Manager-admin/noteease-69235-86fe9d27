@@ -16,7 +16,7 @@ Implements:
 const COLOR = {
   accent: '#388e3c',
   primary: '#1976d2',
-  secondary: '#ef6c00',
+  secondary: '#00b8d9', // replaced orange with cyan/teal
 };
 
 function getInitialNotes() {

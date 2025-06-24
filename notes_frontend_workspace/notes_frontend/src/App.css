@@ -1,7 +1,7 @@
 :root {
   --accent: #388e3c;
   --primary: #1976d2;
-  --secondary: #ef6c00;
+  --secondary: #00b8d9; /* replaced orange with modern cyan/teal */
 
   --bg: #f8fafc;
   --sidebar-bg: #ffffff;
@@ -15,7 +15,7 @@
 [data-theme="dark"] {
   --accent: #40b87a;
   --primary: #47a4f5;
-  --secondary: #ff9b42;
+  --secondary: #1fe3e4; /* replaced orange with a bright teal for dark mode */
   --bg: #1a1b1f;
   --sidebar-bg: #202127;
   --sidebar-border: #252732;
@@ -44,12 +44,12 @@ body {
 
 /* Gradient backgrounds for light/dark themes */
 .app-gradient-light {
-  background: linear-gradient(120deg, #f8fafc 0%, #e6f0fa 55%, #e1ffe3 100%);
+  background: linear-gradient(120deg, #f8fafc 0%, #e6f0fa 55%, #b1fdfa 100%); /* end color now a soft cyan/teal */
   min-height: 100vh;
   /* Don't override flex for .notes-app, allow layout as before */
 }
 .app-gradient-dark {
-  background: linear-gradient(120deg, #191a1e 0%, #23232b 54%, #222c23 95%);
+  background: linear-gradient(120deg, #191a1e 0%, #23232b 54%, #1fe3e4 95%);
   min-height: 100vh;
 }
 
@@ -278,7 +278,7 @@ body {
 }
 .btn-danger:hover,
 .btn-danger:focus {
-  background: #bc5700;
+  background: #009eb8; /* slightly darker teal for hover/focus */
 }
 .btn-secondary {
   background: var(--accent);
