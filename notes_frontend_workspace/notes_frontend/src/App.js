@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 
+
 /*
 PUBLIC_INTERFACE
 Main App component for the Notes Single-Page Application.
@@ -38,12 +39,36 @@ function persistNotes(notes) {
   window.localStorage.setItem('notes_v1', JSON.stringify(notes));
 }
 
-function Sidebar({ children }) {
+function ThemeToggle({ theme, onToggle }) {
+  // PUBLIC_INTERFACE
+  // A button for toggling the dark/light theme
+  return (
+    <button
+      className="btn btn-sm"
+      style={{
+        background: theme === 'dark' ? COLOR.secondary : COLOR.primary,
+        marginLeft: 8,
+        letterSpacing: 0.5,
+        fontWeight: 500,
+      }}
+      aria-label="Switch color theme"
+      onClick={onToggle}
+      type="button"
+      title="Toggle dark/light mode"
+    >
+      {theme === 'dark' ? "☀️ Light" : "🌙 Dark"}
+    </button>
+  );
+}
+
+function Sidebar({ children, theme, onToggleTheme }) {
+  // Pass in the theme toggle UI
   return (
     <aside className="sidebar">
       <div className="side-header">
         <span className="logo-symbol" style={{ color: COLOR.accent, fontWeight: 700, fontSize: 22 }}>✎</span>
         <span className="logo-text" style={{ color: COLOR.primary, fontWeight: 700 }}>NoteEase</span>
+        <ThemeToggle theme={theme} onToggle={onToggleTheme} />
       </div>
       {children}
     </aside>
@@ -152,9 +177,32 @@ function NoteDisplay({ note, onEdit }) {
 }
 
 function App() {
+  // THEME SUPPORT: Persisted user theme, default to system, fallback to light
+  const getPreferredTheme = () => {
+    const stored = window.localStorage.getItem("notesease_theme");
+    if (stored) return stored;
+    if (window.matchMedia &&
+      window.matchMedia('(prefers-color-scheme: dark)').matches
+    ) return "dark";
+    return "light";
+  };
+
+  const [theme, setTheme] = useState(getPreferredTheme());
   const [notes, setNotes] = useState(getInitialNotes());
   const [selectedId, setSelectedId] = useState(notes.length ? notes[0].id : null);
   const [editorMode, setEditorMode] = useState(null); // 'new', 'edit', or null
+
+  useEffect(() => {
+    // Update theme variable CSS on root element
+    const root = document.documentElement;
+    if (theme === "dark") {
+      root.setAttribute("data-theme", "dark");
+      window.localStorage.setItem("notesease_theme", "dark");
+    } else {
+      root.setAttribute("data-theme", "light");
+      window.localStorage.setItem("notesease_theme", "light");
+    }
+  }, [theme]);
 
   // Any changes to notes, persist them.
   useEffect(() => {
@@ -205,6 +253,10 @@ function App() {
     setEditorMode(null);
   }
 
+  function toggleTheme() {
+    setTheme(curr => curr === "dark" ? "light" : "dark");
+  }
+
   let mainContent;
 
   if (editorMode === 'new') {
@@ -241,9 +293,12 @@ function App() {
     );
   }
 
+  // Decide gradient class based on theme
+  const appGradientClass = theme === "dark" ? "app-gradient-dark" : "app-gradient-light";
+
   return (
-    <div className="app notes-app">
-      <Sidebar>
+    <div className={`app notes-app ${appGradientClass}`}>
+      <Sidebar theme={theme} onToggleTheme={toggleTheme}>
         <NoteList
           notes={notes}
           selectedId={selectedId}

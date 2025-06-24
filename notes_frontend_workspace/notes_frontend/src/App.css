@@ -2,6 +2,7 @@
   --accent: #388e3c;
   --primary: #1976d2;
   --secondary: #ef6c00;
+
   --bg: #f8fafc;
   --sidebar-bg: #ffffff;
   --sidebar-border: #e5e7eb;
@@ -11,6 +12,19 @@
   --border: #e0e0e7;
 }
 
+[data-theme="dark"] {
+  --accent: #40b87a;
+  --primary: #47a4f5;
+  --secondary: #ff9b42;
+  --bg: #1a1b1f;
+  --sidebar-bg: #202127;
+  --sidebar-border: #252732;
+  --note-bg: #23232b;
+  --text-primary: #f8fafc;
+  --text-muted: #b1b7bf;
+  --border: #26283a;
+}
+
 body {
   margin: 0;
   font-family: 'Inter', 'Roboto', 'Helvetica', 'Arial', sans-serif;
@@ -18,13 +32,32 @@ body {
   color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background 0.30s cubic-bezier(0.4,0,0.2,1), color 0.25s linear;
+}
+
+[data-theme] .sidebar, [data-theme] .main-area, [data-theme] .note-editor, [data-theme] .note-display,
+[data-theme] .note-list-item,
+[data-theme] .btn, [data-theme] input, [data-theme] textarea {
+  transition: background 0.25s, color 0.25s, border 0.18s;
+}
+
+
+/* Gradient backgrounds for light/dark themes */
+.app-gradient-light {
+  background: linear-gradient(120deg, #f8fafc 0%, #e6f0fa 55%, #e1ffe3 100%);
+  min-height: 100vh;
+  /* Don't override flex for .notes-app, allow layout as before */
+}
+.app-gradient-dark {
+  background: linear-gradient(120deg, #191a1e 0%, #23232b 54%, #222c23 95%);
+  min-height: 100vh;
 }
 
 /* --- Layout --- */
 .app.notes-app {
   min-height: 100vh;
   display: flex;
-  background: var(--bg);
+  background: none !important; /* let gradient show */
 }
 .sidebar {
   width: 260px;
@@ -121,7 +154,7 @@ body {
   min-width: 0;
   min-height: 100vh;
   padding: 32px;
-  background: var(--bg);
+  background: transparent;
   display: flex;
   justify-content: center;
   align-items: flex-start;
