@@ -296,19 +296,23 @@ function App() {
   // Decide gradient class based on theme
   const appGradientClass = theme === "dark" ? "app-gradient-dark" : "app-gradient-light";
 
+  // Use a wrapper div that applies the gradient and stretches full viewport,
+  // then let the app container .app.notes-app be inside with a transparent bg
   return (
-    <div className={`app notes-app ${appGradientClass}`}>
-      <Sidebar theme={theme} onToggleTheme={toggleTheme}>
-        <NoteList
-          notes={notes}
-          selectedId={selectedId}
-          onSelect={handleSelectNote}
-          onNew={handleNewNote}
-        />
-      </Sidebar>
-      <main className="main-area">
-        {mainContent}
-      </main>
+    <div className={appGradientClass} style={{ minHeight: "100vh", width: "100vw" }}>
+      <div className="app notes-app">
+        <Sidebar theme={theme} onToggleTheme={toggleTheme}>
+          <NoteList
+            notes={notes}
+            selectedId={selectedId}
+            onSelect={handleSelectNote}
+            onNew={handleNewNote}
+          />
+        </Sidebar>
+        <main className="main-area">
+          {mainContent}
+        </main>
+      </div>
     </div>
   );
 }

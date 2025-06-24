@@ -57,7 +57,8 @@ body {
 .app.notes-app {
   min-height: 100vh;
   display: flex;
-  background: none !important; /* let gradient show */
+  background: transparent !important; /* let gradient show through */
+  box-shadow: none;
 }
 .sidebar {
   width: 260px;
